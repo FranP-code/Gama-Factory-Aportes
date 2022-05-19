@@ -10,7 +10,7 @@ function main() {
 
     //Filter the elements for get the one with the increase prices
     let select = [...selectElements].filter(selectElement => {
-        const str = selectElement.children[1].innerText
+        const str = selectElement.children[2].innerText
         const price = str.substring(
             str.indexOf("(+$") + 1,
             str.indexOf(")")
