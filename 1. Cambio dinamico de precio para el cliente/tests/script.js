@@ -4,25 +4,37 @@ function getPricesElements() {
 }
 
 function main() {
-    
-    //Get all select elements from DOM
-    const selectElements = document.querySelectorAll("#product select.form-control")
 
-    //Filter the elements for get the one with the increase prices
-    let select = [...selectElements].filter(selectElement => {
-        const str = selectElement.children[2].innerText
-        const price = str.substring(
-            str.indexOf("(+$") + 1,
-            str.indexOf(")")
-        )
+    //Get all options
 
-        if (price) {
-            return selectElement
+    const options = document.querySelectorAll("option")
+
+    //Get the option with (+$price) and select the father element
+    let select;
+
+    options.forEach(option => {
+
+        //If select defined, return
+        if (select) {
+            return
+        }
+
+        if (option.textContent.includes("(+$")) {
+            const number = option.textContent.substring(
+                option.textContent.indexOf("(+$") + 1, 
+                option.textContent.lastIndexOf(")")
+            );
+
+            if (number) {
+                select = option.parentElement
+            }
         }
     })
 
+    console.log(select)
+
     //If there are more or less than one selected, report the error and stop the script
-    if (select.length !== 1) {
+    if (!select) {
         console.error("ERROR SELECTING THE PRICE SELECT ELEMENT")
         console.log("Select elements", selectElements)
         console.log("Select element", select)
@@ -49,7 +61,7 @@ function main() {
     const sharesElement = document.querySelector(".short-des font b span font")
 
     //Add event listener to the selected select element
-    select[0].addEventListener("change", (e) => {
+    select.addEventListener("change", (e) => {
 
         //Get option text
         const option = e.target.selectedOptions[0].innerText
